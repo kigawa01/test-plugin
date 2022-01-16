@@ -1,0 +1,4 @@
+name: Test Plugin
+version: '${project.version}'
+main: net.kigawa.testplugin.TestPlugin
+api-version: 1.16
