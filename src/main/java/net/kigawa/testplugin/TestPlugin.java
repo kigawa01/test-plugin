@@ -1,5 +1,6 @@
 package net.kigawa.testplugin;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -20,7 +21,7 @@ public final class TestPlugin extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        getLogger().info("enable " + getName());
+        Bukkit.getPluginManager().registerEvents(this, this);
     }
 
     @Override
