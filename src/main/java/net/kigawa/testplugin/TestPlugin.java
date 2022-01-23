@@ -1,6 +1,7 @@
 package net.kigawa.testplugin;
 
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
@@ -8,10 +9,11 @@ import org.bukkit.block.data.type.Leaves;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public final class TestPlugin extends JavaPlugin implements Listener {
 
@@ -28,30 +30,31 @@ public final class TestPlugin extends JavaPlugin implements Listener {
 
     @EventHandler
     public void breakTreeEvent(BlockBreakEvent event) {
-        if (!event.getBlock().getType().equals(Material.OAK_LOG)) return;
-        var tree = new LinkedList<Block>();
-        if (!addLog(tree, event.getBlock())) return;
+        TreeBreaker treeBreaker = new TreeBreaker(event.getBlock(), 10, 20);
+        var roots = treeBreaker.getRoot();
+        if (roots.isEmpty() || !treeBreaker.hasLeaf()) return;
 
-    }
+        ItemStack tool = event.getPlayer().getInventory().getItemInMainHand();
+        World world = event.getBlock().getWorld();
+        for (Block block : treeBreaker.getTree()) {
+            for (ItemStack itemStack : block.getDrops(tool)) {
+                world.dropItem(block.getLocation(), itemStack);
+            }
 
-    private boolean addLog(List<Block> tree, Block block) {
-        if (tree.contains(block)) return false;
-        if (!block.getType().equals(Material.OAK_LOG)) return false;
-        tree.add(block);
+            var meta = tool.getItemMeta();
+            if (meta instanceof Damageable) {
+                var toolMeta = ((Damageable) meta);
+                toolMeta.setDamage(toolMeta.getDamage() - 2);
+            }
 
-        var onGround = false;
-        for (BlockFace face : BlockFace.values())
-            if (addLog(tree, block.getRelative(face))) onGround = true;
-        var type = block.getRelative(BlockFace.DOWN).getType();
+            block.breakNaturally(tool);
+        }
 
-        if (type.equals(Material.DIRT) | type.equals(Material.GRASS)) onGround = true;
-        return onGround;
-    }
+        event.getPlayer().getInventory().setItemInMainHand(tool);
 
-    private boolean isLog(Material material) {
-        if (material.equals(Material.OAK_LOG)) return true;
-        if (material.equals(Material.ACACIA_LOG)) return true;
-        return false;
+        for (Block block : roots) {
+            block.setType(Material.OAK_SAPLING);
+        }
     }
 }
 
@@ -63,8 +66,8 @@ class TreeBreaker {
     private final int minY;
     private final int minZ;
     private final LinkedList<Block> tree = new LinkedList<>();
-    private boolean onGround;
     private boolean hasLeaf;
+    private LinkedList<Block> root;
 
     public TreeBreaker(Block block, int size, int high) {
         maxX = block.getX() + size;
@@ -89,7 +92,9 @@ class TreeBreaker {
             relativeLog(block.getRelative(face));
             relativeLeaf(block.getRelative(face));
         }
-        if (isDirt(block.getRelative(BlockFace.DOWN).getType())) onGround = true;
+        if (isDirt(block.getRelative(BlockFace.DOWN).getType())) {
+            root.add(block);
+        }
     }
 
     private void relativeLeaf(Block block) {
@@ -126,5 +131,17 @@ class TreeBreaker {
 
     private boolean isDirt(Material material) {
         return material.equals(Material.DIRT);
+    }
+
+    public LinkedList<Block> getRoot() {
+        return root;
+    }
+
+    public boolean hasLeaf() {
+        return hasLeaf;
+    }
+
+    public LinkedList<Block> getTree() {
+        return tree;
     }
 }
