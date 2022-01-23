@@ -114,7 +114,7 @@ class TreeBreaker {
     private boolean allowBlock(Block block) {
         if (tree.contains(block)) return false;
         if (minX > block.getX() || maxX < block.getX()) return false;
-        if (minY > block.getY() || maxX < block.getY()) return false;
+        if (minY > block.getY() || maxY < block.getY()) return false;
         if (minZ > block.getZ() || maxZ < block.getZ()) return false;
         return true;
     }
