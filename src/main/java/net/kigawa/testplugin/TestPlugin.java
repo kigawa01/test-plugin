@@ -14,23 +14,30 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
-public final class TestPlugin extends JavaPlugin implements Listener {
+public final class TestPlugin extends JavaPlugin implements Listener
+{
+
 
     @Override
-    public void onEnable() {
+    public void onEnable()
+    {
         // Plugin startup logic
         Bukkit.getPluginManager().registerEvents(this, this);
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable()
+    {
         // Plugin shutdown logic
     }
 
     @EventHandler
-    public void breakTreeEvent(BlockBreakEvent event) {
+    public void breakTreeEvent(BlockBreakEvent event)
+    {
         TreeBreaker treeBreaker = new TreeBreaker(event.getBlock(), 10, 20);
         var roots = treeBreaker.getRoot();
         if (roots.isEmpty() || !treeBreaker.hasLeaf()) return;
@@ -59,7 +66,8 @@ public final class TestPlugin extends JavaPlugin implements Listener {
     }
 }
 
-class TreeBreaker {
+class TreeBreaker
+{
     private final int maxX;
     private final int maxY;
     private final int maxZ;
@@ -70,7 +78,8 @@ class TreeBreaker {
     private boolean hasLeaf;
     private LinkedList<Block> root;
 
-    public TreeBreaker(Block block, int size, int high) {
+    public TreeBreaker(Block block, int size, int high)
+    {
         maxX = block.getX() + size;
         maxY = block.getY() + high;
         maxZ = block.getZ() + size;
@@ -81,7 +90,8 @@ class TreeBreaker {
         relativeLog(block);
     }
 
-    private void relativeLog(Block block) {
+    private void relativeLog(Block block)
+    {
         if (allowBlock(block)) return;
         var material = block.getType();
 
@@ -98,7 +108,8 @@ class TreeBreaker {
         }
     }
 
-    private void relativeLeaf(Block block) {
+    private void relativeLeaf(Block block)
+    {
         if (!allowBlock(block)) return;
         var material = block.getType();
 
@@ -112,7 +123,8 @@ class TreeBreaker {
         hasLeaf = true;
     }
 
-    private boolean allowBlock(Block block) {
+    private boolean allowBlock(Block block)
+    {
         if (tree.contains(block)) return false;
         if (minX > block.getX() || maxX < block.getX()) return false;
         if (minY > block.getY() || maxY < block.getY()) return false;
@@ -120,29 +132,35 @@ class TreeBreaker {
         return true;
     }
 
-    private boolean isLog(Material material) {
+    private boolean isLog(Material material)
+    {
         if (material.equals(Material.OAK_LOG)) return true;
         if (material.equals(Material.ACACIA_LOG)) return true;
         return false;
     }
 
-    private boolean isLeaf(BlockData blockData) {
+    private boolean isLeaf(BlockData blockData)
+    {
         return blockData instanceof Leaves;
     }
 
-    private boolean isDirt(Material material) {
+    private boolean isDirt(Material material)
+    {
         return material.equals(Material.DIRT);
     }
 
-    public LinkedList<Block> getRoot() {
+    public LinkedList<Block> getRoot()
+    {
         return root;
     }
 
-    public boolean hasLeaf() {
+    public boolean hasLeaf()
+    {
         return hasLeaf;
     }
 
-    public LinkedList<Block> getTree() {
+    public LinkedList<Block> getTree()
+    {
         return tree;
     }
 }
