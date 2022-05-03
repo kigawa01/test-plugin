@@ -40,13 +40,13 @@ public class MCCalculation
         for (int i = 64; i <= 128; i++) {
             var sqrt = Math.ceil(Math.sqrt((128 * 128) - (i * i)));
             System.out.println((int) (x + i) + " " + (int) (z + sqrt) + "\u001b[00;m"
-                    + "\u001b[00;30m | " + (int) (x + i) + " " + (int) (z - sqrt) + "\u001b[00;m"
-                    + "\u001b[00;31m | " + (int) (x - i) + " " + (int) (z + sqrt) + "\u001b[00;m"
-                    + "\u001b[00;32m | " + (int) (x - i) + " " + (int) (z - sqrt) + "\u001b[00;m"
-                    + "\u001b[00;33m | " + (int) (x + sqrt) + " " + (int) (z + i) + "\u001b[00;m"
-                    + "\u001b[00;34m | " + (int) (x + sqrt) + " " + (int) (z - i) + "\u001b[00;m"
-                    + "\u001b[00;35m | " + (int) (x - sqrt) + " " + (int) (z + i) + "\u001b[00;m"
-                    + "\u001b[00;36m | " + (int) (x - sqrt) + " " + (int) (z - i) + "\u001b[00;m"
+                    + "\u001b[00;31m | " + (int) (x + i) + " " + (int) (z - sqrt) + "\u001b[00;m"
+                    + "\u001b[00;32m | " + (int) (x - i) + " " + (int) (z + sqrt) + "\u001b[00;m"
+                    + "\u001b[00;33m | " + (int) (x - i) + " " + (int) (z - sqrt) + "\u001b[00;m"
+                    + "\u001b[00;34m | " + (int) (x + sqrt) + " " + (int) (z + i) + "\u001b[00;m"
+                    + "\u001b[00;35m | " + (int) (x + sqrt) + " " + (int) (z - i) + "\u001b[00;m"
+                    + "\u001b[00;36m | " + (int) (x - sqrt) + " " + (int) (z + i) + "\u001b[00;m"
+                    + "\u001b[00;37m | " + (int) (x - sqrt) + " " + (int) (z - i) + "\u001b[00;m"
             );
         }
     }
