@@ -37,7 +37,7 @@ public class MCCalculation
 
     private static void print()
     {
-        for (int i = 96; i <= 128; i++) {
+        for (int i = 32*3; i <= 128; i++) {
             var sqrt = Math.ceil(Math.sqrt((128 * 128) - (i * i)));
             System.out.println((int) (x + i) + " " + (int) (z + sqrt) + "\u001b[00;m"
                     + "\u001b[00;31m | " + (int) (x + i) + " " + (int) (z - sqrt) + "\u001b[00;m"
