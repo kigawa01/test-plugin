@@ -4,8 +4,10 @@ import java.util.Scanner;
 
 public class MCCalculation
 {
-    public static final double x = -718;
-    public static final double z = -107;
+    public static final int x = -718;
+    public static final int z = -107;
+
+    public static final int r = 128;
 
     public static void main(String[] args)
     {
@@ -32,21 +34,21 @@ public class MCCalculation
             return;
         }
         var i = Integer.parseInt(line[1]);
-        System.out.println(Math.sqrt((128 * 128) - (i * i)));
+        System.out.println(Math.sqrt((r * r) - (i * i)));
     }
 
     private static void print()
     {
-        for (int i = 32*3; i <= 128; i++) {
-            var sqrt = Math.ceil(Math.sqrt((128 * 128) - (i * i)));
-            System.out.println((int) (x + i) + " " + (int) (z + sqrt) + "\u001b[00;m"
-                    + "\u001b[00;31m | " + (int) (x + i) + " " + (int) (z - sqrt) + "\u001b[00;m"
-                    + "\u001b[00;32m | " + (int) (x - i) + " " + (int) (z + sqrt) + "\u001b[00;m"
-                    + "\u001b[00;33m | " + (int) (x - i) + " " + (int) (z - sqrt) + "\u001b[00;m"
-                    + "\u001b[00;34m | " + (int) (x + sqrt) + " " + (int) (z + i) + "\u001b[00;m"
-                    + "\u001b[00;35m | " + (int) (x + sqrt) + " " + (int) (z - i) + "\u001b[00;m"
-                    + "\u001b[00;36m | " + (int) (x - sqrt) + " " + (int) (z + i) + "\u001b[00;m"
-                    + "\u001b[00;37m | " + (int) (x - sqrt) + " " + (int) (z - i) + "\u001b[00;m"
+        for (int i = (int) Math.ceil(r / Math.sqrt(2)); i <= 128; i++) {
+            var sqrt = Math.ceil(Math.sqrt((r * r) - (i * i)));
+            System.out.println((x + i) + " " + (int) (z + sqrt) + "\u001b[00;m"
+                    + "\u001b[00;31m | " + (x + i) + " " + (int) (z - sqrt) + "\u001b[00;m"
+                    + "\u001b[00;32m | " + (x - i) + " " + (int) (z + sqrt) + "\u001b[00;m"
+                    + "\u001b[00;33m | " + (x - i) + " " + (int) (z - sqrt) + "\u001b[00;m"
+                    + "\u001b[00;34m | " + (int) (x + sqrt) + " " + (z + i) + "\u001b[00;m"
+                    + "\u001b[00;35m | " + (int) (x + sqrt) + " " + (z - i) + "\u001b[00;m"
+                    + "\u001b[00;36m | " + (int) (x - sqrt) + " " + (z + i) + "\u001b[00;m"
+                    + "\u001b[00;37m | " + (int) (x - sqrt) + " " + (z - i) + "\u001b[00;m"
             );
         }
     }
@@ -62,7 +64,7 @@ public class MCCalculation
             double dx = x - px;
             double dz = z - pz;
 
-            if (Math.sqrt((dx * dx) + (dz * dz)) > 128) {
+            if (Math.sqrt((dx * dx) + (dz * dz)) > r) {
                 System.out.println("\u001b[00;31m範囲外\u001b[00;m");
             } else {
                 System.out.println("\u001b[00;32m範囲内\u001b[00;m");
